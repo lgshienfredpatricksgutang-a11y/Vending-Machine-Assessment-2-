@@ -62,10 +62,10 @@ def buy():
             
             if code in suggest:                                                               # Suggest an item if applicable
                 sug = suggest[code]                                                           # The code here gets the suggested item code based on the purchased item code.
-                if items[sug][2] > 0:
-                    yn = input(f"Add {items[sug][0]} for AED {items[sug][1]}? (y/n): ")
-                    if yn == 'y':
-                        items[sug][2] -= 1
+                if items[sug][2] > 0:                                                         # If suggested item has stock
+                    yn = input(f"Add {items[sug][0]} for AED {items[sug][1]}? (y/n): ")       # Ask: "Add [item] for AED [price]? (y/n)"
+                    if yn == 'y':                                                             # If yes
+                        items[sug][2] -= 1                                                    # Add it to purchase (update stock, money, sold)
                         money += items[sug][1]
                         sold.append(sug)
                         print(f"Added {items[sug][0]}!")
@@ -79,13 +79,14 @@ def buy():
 
 print("VENDING MACHINE (AED)")                                              # Welcome message to the vending machine when it starts.
 while True:
-    buy()
-    if input("\nNext customer? (y/n): ") != 'y':                            # Exit the main loop if there are no more customers.
-        break
+    buy()                                                                     # One customer's shopping session
+    if input("\nNext customer? (y/n): ") != 'y':                              # Ask: "Next customer? (y/n)"
+        break                                                                 # Exit the main loop if there are no more customers. # Stop if no more customers
 
 
 print(f"\nTotal collected: AED {money:.2f}")                                  # The Summary of the total money collected by the vending machine and the number of items sold.
 print(f"Items sold: {len(sold)}")
 for code in items:                                                            
     if items[code][2] <= 2:                                                   # Low stock warning for items with 2 or fewer left in stock.
-        print(f"Low stock: {items[code][0]} ({items[code][2]} left)")         # Warning for low stock items
+
+        print(f"Low stock: {items[code][0]} ({items[code][2]} left)")         # Warning for low stock items # Show low stock warnings (items with 2 or less left)
